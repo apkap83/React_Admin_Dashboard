@@ -1,9 +1,14 @@
 import { createContext, useState, useMemo } from "react";
 import { createTheme } from "@mui/material/styles";
 
+const THEME_MODE = {
+  DARK: "dark",
+  LIGHT: "light"
+}
+
 // color design tokens
 export const tokens = (mode) => ({
-  ...(mode === "dark"
+  ...(mode === THEME_MODE.DARK
     ? {
         grey: {
           100: "#e0e0e0",
@@ -127,7 +132,7 @@ export const themeSettings = (mode) => {
   return {
     palette: {
       mode: mode,
-      ...(mode === "dark"
+      ...(mode === THEME_MODE.DARK
         ? {
             primary: {
               main: colors.primary[500],
@@ -197,20 +202,21 @@ export const ColorModeContext = createContext({
   toggleColorMode: () => {},
 });
 
+
 export const useMode = () => {
-  const [mode, setMode] = useState("dark");
+  const [mode, setMode] = useState(THEME_MODE.DARK);
 
   const colorMode_withMemo = useMemo(
     () => ({
       toggleColorMode: () =>
-        setMode((prev) => (prev === "light" ? "dark" : "light")),
+        setMode((prev) => (prev === THEME_MODE.LIGHT ? THEME_MODE.DARK : THEME_MODE.LIGHT)),
     }),
     []
   );
 
   const colorMode = {
     toggleColorMode: () =>
-      setMode((prev) => (prev === "light" ? "dark" : "light")),
+      setMode((prev) => (prev === THEME_MODE.LIGHT ? THEME_MODE.DARK : THEME_MODE.LIGHT)),
   };
 
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
