@@ -205,7 +205,8 @@ export const ColorModeContext = createContext({
 export const useMode = () => {
   const [mode, setMode] = useState(THEME_MODE.DARK);
 
-  const colorMode_withMemo = useMemo(
+  // eslint-disable-next-line no-unused-vars
+  const colorModeWithMemo = useMemo(
     () => ({
       toggleColorMode: () =>
         setMode((prev) =>
