@@ -1,9 +1,10 @@
 import React from "react";
 import { Box } from "@mui/system";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
+import { mockDataContacts } from "../../data/mockData";
 
 const Team = () => {
   const theme = useTheme();
@@ -11,10 +12,11 @@ const Team = () => {
 
   const columns = [
     { field: "id", headerName: "ID", flex: 0.5 },
+    { field: "registrarId", headerName: "Registar ID" },
     {
       field: "name",
       headerName: "Name",
-      //   flex: 1,
+      flex: 1,
       cellClassName: "name-column--cell",
     },
     {
@@ -35,40 +37,28 @@ const Team = () => {
       flex: 1,
     },
     {
-      field: "access",
-      headerName: "Access Level",
+      field: "address",
+      headerName: "Address",
       flex: 1,
-      renderCell: ({ row: { access } }) => {
-        return (
-          <Box
-            width="60%"
-            m="0 auto"
-            p="5px"
-            display="flex"
-            justify-content="center"
-            backgroundColor={
-              access === "admin"
-                ? colors.greenAccent[600]
-                : colors.greenAccent[700]
-            }
-            borderRadius="4px"
-          >
-            {access === "admin" && <AdminPanelSettingsOutlinedIcon />}
-            {access === "manager" && <SecurityOutlinedIcon />}
-            {access === "user" && <LockOpenOutlinedIcon />}
-
-            <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
-              {access}
-            </Typography>
-          </Box>
-        );
-      },
+    },
+    {
+      field: "city",
+      headerName: "City",
+      flex: 1,
+    },
+    {
+      field: "zipCode",
+      headerName: "ZipCode",
+      flex: 1,
     },
   ];
 
   return (
     <Box m="20px">
-      <Header title="TEAM" subtitle="Managing the Team Members" />
+      <Header
+        title="CONTACTS"
+        subtitle="List of contacts for future reference"
+      />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -93,9 +83,16 @@ const Team = () => {
             borderTop: "none",
             backgroundColor: colors.blueAccent[700],
           },
+          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+            color: `${colors.grey[100]} !important`,
+          },
         }}
       >
-        <DataGrid rows={mockDataTeam} columns={columns} />
+        <DataGrid
+          rows={mockDataContacts}
+          columns={columns}
+          components={{ Toolbar: GridToolbar }}
+        />
       </Box>
     </Box>
   );

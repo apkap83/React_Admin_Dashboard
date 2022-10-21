@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ProSidebarProvider, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
@@ -17,21 +17,23 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
+  let navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
-    <Link to={to}>
-      <MenuItem
-        active={selected === title}
-        style={{
-          color: colors.grey[100],
-        }}
-        onClick={() => setSelected(title)}
-        icon={icon}
-      >
-        <Typography>{title}</Typography>
-      </MenuItem>
-    </Link>
+    <MenuItem
+      active={selected === title}
+      style={{
+        color: colors.grey[100],
+      }}
+      onClick={() => {
+        setSelected(title);
+        navigate(to);
+      }}
+      icon={icon}
+    >
+      <Typography>{title}</Typography>
+    </MenuItem>
   );
 };
 
@@ -62,7 +64,7 @@ const Sidebar = () => {
       }}
     >
       <ProSidebarProvider collapsed={isCollapsed}>
-        <Menu iconShape="square">
+        <Menu>
           {/* LOGO AND MENU ICON */}
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
